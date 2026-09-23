@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Cormorant Garamond',serif}
+img{image-rendering:-webkit-optimize-contrast}
+@keyframes loveMarquee{0%{transform:translateX(100vw)}100%{transform:translateX(-150vw)}}
+@keyframes particleFall{0%{top:-10%}100%{top:110%}}
+@keyframes particleSway{0%{transform:translateX(-24px) rotate(0deg)}50%{transform:translateX(24px) rotate(180deg)}100%{transform:translateX(-24px) rotate(360deg)}}
+@keyframes scrollLoop{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes floatUpElegant{0%{transform:translateY(0) translateX(0) scale(.8) rotate(0deg);opacity:0}20%{opacity:.9}50%{transform:translateY(-45vh) translateX(25px) scale(1.1) rotate(15deg)}80%{opacity:.8}100%{transform:translateY(-95vh) translateX(-20px) scale(1.2) rotate(-10deg);opacity:0}}
+</style>
+</helmet>
+
+<div style="position:fixed;inset:0;z-index:0;background-color:#fbeaf0;background-image:url('uploads/bg-lily.jpg');background-size:cover;background-position:center;background-attachment:fixed;background-repeat:no-repeat"></div>
+
+<div style="position:relative;z-index:1;min-height:100vh;width:100%;box-sizing:border-box;display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:40px;padding:32px 16px 80px">
+
+  <sc-if value="{{ showLeft }}" hint-placeholder-val="{{ false }}">
+    <div style="display:block;position:absolute;top:0;left:0;width:{{ leftWidth }};height:100%;z-index:0;overflow:visible;pointer-events:auto">
+      <img src="uploads/vinyl-polaroids-transparent.png" alt="Vinyl Record" style="width:120%;max-width:none;height:auto;object-fit:contain;margin-left:-48px;margin-top:-20px;filter:drop-shadow(0 25px 50px rgba(0,0,0,.25));transition:transform .7s ease;mix-blend-mode:multiply" style-hover="transform:scale(1.05)">
+    </div>
+  </sc-if>
+
+  <div style="flex:0 1 520px;min-width:0;display:flex;flex-direction:column;align-items:center;gap:24px">
+
+  <div style="width:100%;max-width:520px;background:rgba(255,255,255,.4);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.6);border-radius:28px;box-shadow:0 20px 45px rgba(214,150,170,.25);padding:20px 0;overflow:hidden">
+    <div style="display:flex;gap:16px;width:max-content;animation:scrollLoop 22s linear infinite;padding:0 20px">
+      <sc-for list="{{ carouselPhotos }}" as="photo" hint-placeholder-count="10">
+        <img src="{{ photo }}" alt="Kỷ niệm" style="width:150px;height:190px;object-fit:cover;border-radius:24px;box-shadow:0 12px 24px rgba(0,0,0,.18);flex-shrink:0">
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="width:100%;max-width:520px;background:rgba(255,255,255,.45);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.6);border-radius:28px;box-shadow:0 20px 45px rgba(214,150,170,.25);padding:28px;box-sizing:border-box">
+    <div style="display:flex;align-items:center;gap:18px">
+      <img src="{{ albumArt }}" alt="Album" style="width:80px;height:80px;border-radius:20px;object-fit:cover;box-shadow:0 8px 18px rgba(0,0,0,.2);flex-shrink:0">
+      <div style="min-width:0">
+        <p style="margin:0;font-weight:600;font-size:19px;color:#7a4a52">Mãi mãi bên nhau</p>
+        <p style="margin:4px 0 0;font-size:15px;color:#a9838a">Nhạc nền của chúng mình</p>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;margin-top:20px">
+      <button onClick="{{ togglePlay }}" style="width:52px;height:52px;border-radius:50%;border:1px solid rgba(230,140,160,.5);background:rgba(255,255,255,.6);color:#c65f74;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="background:rgba(255,255,255,.9)">{{ playIcon }}</button>
+    </div>
+    <div style="margin-top:24px;display:flex;flex-direction:column;gap:14px">
+      <sc-for list="{{ lyricLines }}" as="line" hint-placeholder-count="4">
+        <p style="margin:0;padding-bottom:10px;border-bottom:1px solid rgba(200,150,160,.3);font-style:italic;font-weight:500;font-size:19px;color:#8a5b62;text-align:center">{{ line }}</p>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="width:100%;max-width:520px;display:flex;flex-direction:row;justify-content:center;align-items:center;gap:24px;position:relative;z-index:10">
+    <button onClick="{{ loveBurst }}" style="background:rgba(255,255,255,.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:8px 32px;box-shadow:0 8px 30px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s ease" style-hover="box-shadow:0 8px 30px rgba(0,0,0,.15);transform:scale(1.05)">
+      <img src="uploads/glass-heart.png" alt="Heart" style="width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 4px 3px rgba(0,0,0,.07)) drop-shadow(0 2px 2px rgba(0,0,0,.06))">
+    </button>
+    <button onClick="{{ triggerParticles }}" style="background:rgba(255,255,255,.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:8px 32px;box-shadow:0 8px 30px rgba(0,0,0,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s ease" style-hover="box-shadow:0 8px 30px rgba(0,0,0,.15);transform:scale(1.05)">
+      <img src="uploads/glass-heart.png" alt="Heart" style="width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 4px 3px rgba(0,0,0,.07)) drop-shadow(0 2px 2px rgba(0,0,0,.06))">
+    </button>
+  </div>
+
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;margin-top:64px;margin-bottom:80px;position:relative;z-index:20;background:none;border:none;padding:0">
+    <div onClick="{{ toggleLetter }}" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;transition:transform .5s ease" style-hover="transform:scale(1.05)">
+      <img src="uploads/envelope-lover.jpg" alt="Envelope" style="width:90vw;max-width:{{ envMax }};height:auto;object-fit:contain;filter:drop-shadow(0 20px 50px rgba(0,0,0,.3));margin-bottom:32px">
+      <button onClick="{{ toggleLetter }}" style="position:relative;display:flex;align-items:center;justify-content:center;margin-top:16px;padding:0;border:none;background:none;cursor:pointer;transition:transform .3s ease;flex-shrink:0" style-hover="transform:scale(1.05)">
+        <img src="uploads/pill-button.png" alt="Button Background" style="width:{{ pillWidth }};height:auto;object-fit:contain;display:block;filter:drop-shadow(0 4px 3px rgba(0,0,0,.07)) drop-shadow(0 2px 2px rgba(0,0,0,.06))">
+        <span style="position:absolute;color:#c23b65;font-weight:600;font-size:clamp(18px,2.4vw,20px);letter-spacing:.025em;font-family:'Cormorant Garamond',serif;white-space:nowrap">anh mở thư nhé!</span>
+      </button>
+    </div>
+  </div>
+
+  <sc-if value="{{ letterOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="width:100%;max-width:520px;background:#FDFBF7;border-radius:28px;box-shadow:0 20px 45px rgba(214,150,170,.22);padding:32px;box-sizing:border-box">
+    
+
+    <div style="max-height:{{ letterMaxHeight }};opacity:{{ letterOpacity }};overflow:hidden;transition:max-height .9s ease,opacity .6s ease">
+      <div style="font-size:clamp(16px,2vw,19px);line-height:2;color:#5b4540">
+        <p style="margin:0 0 24px;font-style:italic;font-weight:600;font-size:clamp(24px,4vw,32px);color:#7a4a52">Gửi anh thương mến,</p>
+        <p style="margin:0 0 22px;text-align:justify;text-wrap:pretty">Thoáng cái đã đến ngày này rồi anh nhỉ, ngày anh trở về quê hương để chuẩn bị cho công việc mới và dần ổn định cuộc sống ấy. Mấy ngày nay lòng em cứ bồn chồn, vừa mừng cho anh vì chặng đường mới phía trước, nhưng cũng vừa nhớ và thấy hẫng hẫng trong lòng. Thời gian qua bên anh cùng nhau chia sẻ bao nhiêu chuyện, từ những niềm vui nho nhỏ đến những dự định lớn lao, em mới nhận ra anh đã trở thành một phần không thể thiếu trong cuộc sống của em từ lúc nào rồi.</p>
+        <p style="margin:0 0 22px;text-align:justify;text-wrap:pretty">Tháng này anh về quê, tuy khoảng cách có xa hơn một chút nhưng em tin tình cảm của hai đứa mình thì chẳng xa đi đâu được. Em biết những ngày đầu bắt đầu lại mọi thứ ở quê sẽ có nhiều bỡ ngỡ, bận rộn và cả những lo toan cho công việc sắp tới. Nhưng anh hãy nhớ là luôn có em ở đây, em vẫn luôn dõi theo, động viên và chờ đợi anh anh nhé. Anh cứ vững tin làm tốt mọi thứ, giữ gìn sức khỏe thật tốt, rồi chúng mình sẽ sớm gặp lại nhau thôi.</p>
+        <p style="margin:0 0 22px;text-align:justify;text-wrap:pretty">Nói ra thì hơi sến một chút nhưng em thực sự mong chờ đến ngày mình được gặp lại, được ôm anh cho thỏa nỗi nhớ. Nghĩ về tương lai, em chỉ khao khát một điều duy nhất là được ở bên anh, được cùng anh bước qua mọi thăng trầm của cuộc đời. Em muốn là người đồng hành cùng anh trên mọi nẻo đường, từ những ngày nắng đẹp yên bình cho đến cả những lúc giông bão khó khăn. Dù có phải đi đến đâu hay đối mặt với điều gì, chỉ cần tay trong tay cùng anh, em đều thấy lòng mình trọn vẹn và bình yên lắm.</p>
+        <p style="margin:0 0 22px;text-align:justify;text-wrap:pretty">Sắp tới là mình tính chuyện kết hôn rồi đấy, nghĩ đến thôi mà em đã thấy vừa hồi hộp vừa hạnh phúc lắm anh à. Mong là chặng đường sắp tới của anh sẽ thật thuận lợi để chúng mình sớm ngày về chung một nhà, cùng nhau xây dựng tổ ấm nhỏ.</p>
+        <p style="margin:0 0 22px;text-align:justify;text-wrap:pretty">Anh à, hành trình phía trước dù có thế nào, anh có muốn nắm chặt tay em, cùng em đi qua hết những ngày tháng sau này không?</p>
+        <p style="margin:0;text-align:justify">Mong từng ngày để được gặp lại anh. Em yêu anh thật nhiều ạ.</p>
+        <p style="margin:12px 0 0;text-align:right;font-style:italic;font-weight:600;font-size:clamp(20px,3vw,26px);color:#7a4a52">Em Linh Donut.</p>
+      </div>
+
+    </div>
+
+  </div>
+  </sc-if>
+
+  <div style="width:100%;max-width:520px;background:#FDFBF7;border-radius:28px;box-shadow:0 20px 45px rgba(214,150,170,.22);padding:32px;box-sizing:border-box">
+      <div>
+        <p style="margin:0 0 28px;text-align:center;font-style:italic;font-weight:600;font-size:clamp(24px,4vw,30px);color:#7a4a52">Hành trình của chúng mình</p>
+        <div style="position:relative;padding-left:36px;display:flex;flex-direction:column;gap:20px">
+          <div style="position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,#f6c6d2,#eaa3b5)"></div>
+          <sc-for list="{{ milestones }}" as="m" hint-placeholder-count="7">
+            <div style="position:relative">
+              <span style="position:absolute;left:-36px;top:14px;width:24px;height:24px;border-radius:50%;background:#fff;border:1px solid #f2b6c4;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 4px 10px rgba(214,150,170,.3)">💗</span>
+              <div style="background:rgba(255,240,244,.6);border:1px solid rgba(242,182,196,.45);border-radius:22px;padding:16px 20px;box-shadow:0 8px 20px rgba(214,150,170,.15)">
+                <p style="margin:0 0 4px;font-weight:600;font-size:15px;letter-spacing:.06em;color:#c65f74;font-variant-numeric:tabular-nums">{{ m.date }}</p>
+                <p style="margin:0 0 6px;font-weight:600;font-size:clamp(18px,2.4vw,21px);color:#5b4540">{{ m.title }}</p>
+                <p style="margin:0;font-size:clamp(15px,1.9vw,17px);line-height:1.8;color:#6b5550;text-align:justify;text-wrap:pretty">{{ m.desc }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+  </div>
+
+  </div>
+</div>
+
+<sc-if value="{{ showLoveText }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;top:50%;left:0;width:100%;transform:translateY(-50%);z-index:9000;pointer-events:none;overflow:hidden;white-space:nowrap">
+    <h1 style="display:inline-block;margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(60px,10vw,128px);color:#fff;filter:drop-shadow(0 0 20px rgba(255,255,255,.9));animation:loveMarquee 12s linear 1 forwards" onAnimationEnd="{{ hideLoveText }}">I love you more than I can say</h1>
+  </div>
+</sc-if>
+
+<div style="position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden">
+  <sc-for list="{{ particles }}" as="p" hint-placeholder-count="0">
+    <div style="{{ p.style }}">
+      <img src="{{ p.src }}" alt="" style="{{ p.imgStyle }}">
+    </div>
+  </sc-for>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;photo1&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;uploads/memory1.jpg&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Photos&quot;},&quot;photo2&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;uploads/memory2.jpg&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Photos&quot;},&quot;photo3&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;uploads/memory3.jpg&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Photos&quot;},&quot;photo4&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;uploads/memory4.jpg&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Photos&quot;},&quot;photo5&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;uploads/memory5.jpg&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Photos&quot;}}">
+class Component extends DCLogic {
+  state = { letterOpen: false, playing: false, particles: [] };
+
+  photos = () => [1,2,3,4,5].map(i => this.props['photo' + i] ?? ('uploads/memory' + i + '.jpg'));
+
+  milestones = [
+    { date: '22/06/2026', title: 'Lần đầu chúng mình gặp nhau ở quán cafe anh làm việc.', desc: 'Đó là ngày đầu tiên chúng mình gặp nhau, anh và em đều ấn tượng với nhau vì cả hai đều cùng có điểm chung là yêu mèo.' },
+    { date: '27/06/2026', title: 'Anh gửi tin nhắn đầu tiên cho em.', desc: 'Tin nhắn đầu tiên anh chia sẻ cho em hình ảnh bé mèo anh đang nuôi.' },
+    { date: '09/07/2026', title: 'Buổi date đầu tiên của chúng mình.', desc: 'Anh dẫn em đi xem phim, sau đó mình cùng đi photobooth và đi music box. Anh dẫn em đi ăn đêm ở quán bình dân.' },
+    { date: '11/07/2026', title: 'Nụ hôn đầu bất ngờ.', desc: 'Quay đi quay lại 1 cái anh thơm 2 bên má em, đã vậy còn thơm môi của em nữa. Khi ấy chúng mình còn chưa cả đến bước tìm hiểu.' },
+    { date: '12/07/2026', title: 'Ngày thành đôi của chúng mình.', desc: 'Đêm hôm trước sau khi em nói khi nào có bó hoa thì mình mới gặp nhau, vậy mà ngay hôm sau anh đã mang một bó hoa xinh đến gặp và đánh dấu chủ quyền với em rồi. Lúc đó em thật sự rất bất ngờ.' },
+    { date: '26/07/2026', title: 'Lần đầu em về nhà anh.', desc: 'Buồn cười nhỉ, anh còn chưa kịp dẫn em về ra mắt mà gia đình em đã vội vàng về thăm gia đình anh rồi. Hôm ấy em ngại lắm, chẳng kịp chuẩn bị gì cả, ban đầu cũng chẳng nghĩ là mẹ em quyết vội vậy. Cũng trong ngày hôm ấy mà chúng mình đã có thêm một dấu ấn mới, anh có nhớ không ta?' },
+    { date: '17/09/2026', title: 'Ngày em viết lá thư này.', desc: 'Em muốn anh hiểu rằng em luôn ở bên anh, chẳng bao giờ rời xa anh đâu. Em yêu, em thương anh nhiều lắm. Chồng à, em mong mình sẽ luôn vai kề vai, ở bên nhau từ nay và về sau nữa. Chúng mình có thể cùng nhau xây dựng mái ấm nha anh.' }
+  ];
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+
+  togglePlay = () => this.setState(s => ({ playing: !s.playing }));
+  toggleLetter = () => this.setState({ letterOpen: true });
+
+  PARTICLE_IMAGES = ['uploads/particle-1.png', 'uploads/particle-2.png', 'uploads/particle-3.png', 'uploads/particle-4.png', 'uploads/glass-heart.png'];
+
+  loveBurst = () => {
+    this.setState({ showLoveText: true });
+    this.triggerParticles();
+  };
+
+  triggerParticles = () => {
+    clearTimeout(this.rainTimer);
+    const r = (a, b) => a + Math.random() * (b - a);
+    const list = Array.from({ length: 45 }, (_, i) => {
+      const dur = r(4, 8), delay = r(0, 2.5), size = Math.round(r(80, 160));
+      return {
+        id: Date.now() + '-' + i,
+        src: this.PARTICLE_IMAGES[Math.floor(Math.random() * this.PARTICLE_IMAGES.length)],
+        style: `position:absolute;top:-10%;left:${r(0, 100).toFixed(1)}vw;width:${size}px;pointer-events:none;animation:particleFall ${dur.toFixed(1)}s linear ${delay.toFixed(1)}s forwards`,
+        imgStyle: `width:100%;height:auto;display:block;pointer-events:none;filter:drop-shadow(0 6px 10px rgba(194,59,101,.2));animation:particleSway ${r(2.5, 5).toFixed(1)}s ease-in-out infinite`
+      };
+    });
+    this.setState({ particles: list, isRaining: true });
+    this.rainTimer = setTimeout(() => this.setState({ particles: [], isRaining: false }), 11000);
+  };
+
+  triggerParticlesOld = () => {
+    const emojis = ['💖', '🌸', '💗', '🌷'];
+    const list = Array.from({ length: 18 }, (_, i) => {
+      const left = Math.round(Math.random() * 90) + 2;
+      const dur = (3.5 + Math.random() * 2.5).toFixed(1);
+      const size = 24 + Math.round(Math.random() * 16);
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+      return {
+        id: Date.now() + '-' + i,
+        emoji,
+        style: `position:fixed;bottom:-60px;left:${left}%;font-size:${size}px;animation:floatUpElegant ${dur}s ease-out forwards;pointer-events:none`
+      };
+    });
+    this.setState({ particles: list });
+    setTimeout(() => this.setState({ particles: [] }), 6500);
+  };
+
+  renderVals() {
+    const p = this.photos();
+    return {
+      carouselPhotos: [...p, ...p],
+      albumArt: 'uploads/album-cover.jpg',
+      milestones: this.milestones,
+      showLeft: (this.state.vw || 0) >= 1024,
+      leftWidth: (this.state.vw || 0) >= 1280 ? '450px' : '350px',
+      letterOpen: this.state.letterOpen,
+      showLoveText: !!this.state.showLoveText,
+      loveBurst: this.loveBurst,
+      hideLoveText: () => this.setState({ showLoveText: false }),
+      pillWidth: (this.state.vw || 0) >= 768 ? '260px' : '220px',
+      envMax: (this.state.vw || 0) >= 768 ? '550px' : '450px',
+      lyricLines: [
+        'Nghe gió hát lời yêu thương…',
+        'Em là mùa xuân của anh…',
+        'Mãi mãi bên nhau…',
+        'Gửi nỗi nhớ vào mây…'
+      ],
+      playIcon: this.state.playing ? '⏸' : '▶',
+      togglePlay: this.togglePlay,
+      toggleLetter: this.toggleLetter,
+      triggerParticles: this.triggerParticles,
+            letterMaxHeight: this.state.letterOpen ? '9000px' : '0px',
+      letterOpacity: this.state.letterOpen ? 1 : 0,
+      particles: this.state.particles
+    };
+  }
+}
+
+</script>
+</body>
+</html>
