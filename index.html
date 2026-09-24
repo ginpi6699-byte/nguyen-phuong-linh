@@ -1165,10 +1165,9 @@
         const easedProgress = Math.max(0, Math.min(1, rawProgress));
         const smoothProgress = 1 - Math.pow(1 - easedProgress, 3);
 
-        letterCard.hidden = false;
-        letterCard.style.setProperty('--reveal', smoothProgress.toFixed(3));
-
         if (smoothProgress > 0.3) {
+          letterCard.hidden = false;
+          letterCard.style.setProperty('--reveal', smoothProgress.toFixed(3));
           letterCard.classList.add('visible');
           letterOpen = true;
         }
@@ -1325,9 +1324,12 @@
       window.addEventListener('pointerdown', attemptAutoplay, { once: true });
       window.addEventListener('keydown', attemptAutoplay, { once: true });
 
+      letterCard.hidden = true;
+      letterCard.style.setProperty('--reveal', '0');
+      letterCard.classList.remove('visible');
+
       setupTimelineReveal();
       updateViewportState();
-      revealLetterOnScroll();
       setTimeout(attemptAutoplay, 250);
       setTimeout(attemptAutoplay, 1200);
       setTimeout(attemptAutoplay, 2500);
