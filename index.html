@@ -460,18 +460,40 @@
       }
 
       .letter-card {
-        --reveal: 0;
-        opacity: calc(var(--reveal) * 1);
-        transform: translateY(calc((1 - var(--reveal)) * 36px)) scale(calc(0.97 + (var(--reveal) * 0.03)));
-        max-height: calc(80px + (var(--reveal) * 9000px));
+        opacity: 0;
+        transform: translateY(-30px) scale(0.98);
+        max-height: 0;
         overflow: hidden;
-        padding-top: calc((1 - var(--reveal)) * 34px);
-        padding-bottom: calc((1 - var(--reveal)) * 34px);
-        transition: opacity 1s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1), max-height 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), padding 1s ease;
+        padding-top: 0;
+        padding-bottom: 0;
+        pointer-events: none;
+      }
+
+      @keyframes letterDrop {
+        0% {
+          opacity: 0;
+          transform: translateY(-30px) scale(0.98);
+          max-height: 0;
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+        30% {
+          opacity: 0.35;
+          transform: translateY(-8px) scale(0.99);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          max-height: 9000px;
+          padding-top: 32px;
+          padding-bottom: 32px;
+        }
       }
 
       .letter-card.visible {
-        --reveal: 1;
+        opacity: 1;
+        pointer-events: auto;
+        animation: letterDrop 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
       }
 
       .letter-inner {
@@ -1142,11 +1164,10 @@
       function openLetter() {
         letterOpen = true;
         letterCard.hidden = false;
-        requestAnimationFrame(() => {
-          letterCard.classList.add('visible');
-          letterCard.style.setProperty('--reveal', '1');
-          letterCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
+        letterCard.classList.remove('visible');
+        void letterCard.offsetWidth;
+        letterCard.classList.add('visible');
+        letterCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
         toggleLetter.classList.remove('open');
         void toggleLetter.offsetWidth;
         toggleLetter.classList.add('open');
@@ -1155,22 +1176,7 @@
       }
 
       function revealLetterOnScroll() {
-        if (!envelopeWrap || letterOpen) return;
-        if (window.scrollY <= 30) return;
-
-        const rect = envelopeWrap.getBoundingClientRect();
-        const startThreshold = window.innerHeight * 0.9;
-        const endThreshold = window.innerHeight * 0.38;
-        const rawProgress = (startThreshold - rect.top) / (startThreshold - endThreshold);
-        const easedProgress = Math.max(0, Math.min(1, rawProgress));
-        const smoothProgress = 1 - Math.pow(1 - easedProgress, 3);
-
-        if (smoothProgress > 0.3) {
-          letterCard.hidden = false;
-          letterCard.style.setProperty('--reveal', smoothProgress.toFixed(3));
-          letterCard.classList.add('visible');
-          letterOpen = true;
-        }
+        return;
       }
 
       function burstHeartRain() {
@@ -1320,13 +1326,12 @@
       playToggle.addEventListener('click', togglePlay);
       muteToggle.addEventListener('click', toggleMute);
       window.addEventListener('resize', updateViewportState);
-      window.addEventListener('scroll', revealLetterOnScroll, { passive: true });
       window.addEventListener('pointerdown', attemptAutoplay, { once: true });
       window.addEventListener('keydown', attemptAutoplay, { once: true });
 
       letterCard.hidden = true;
-      letterCard.style.setProperty('--reveal', '0');
       letterCard.classList.remove('visible');
+      letterOpen = false;
 
       setupTimelineReveal();
       updateViewportState();
